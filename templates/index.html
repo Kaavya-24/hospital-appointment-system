@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePoint | Hospital Appointments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="navbar">
+    <a class="brand" href="/">✚ CarePoint</a>
+    <nav>
+        <a href="#doctors">Our Doctors</a>
+        <a href="#booking">Book Appointment</a>
+        <a href="{{ url_for('appointments') }}">Appointments</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <p class="eyebrow">YOUR HEALTH, OUR PRIORITY</p>
+            <h1>Healthcare made<br><span>simple and accessible.</span></h1>
+            <p>Find a specialist and request your hospital appointment in just a few steps.</p>
+            <a class="button" href="#booking">Book an Appointment →</a>
+        </div>
+        <div class="hero-card">
+            <div class="medical-icon">✚</div>
+            <h2>Care that puts you first</h2>
+            <p>Choose from our sample directory of medical specialists.</p>
+            <div class="hero-stat"><strong>4</strong><span>Sample specialists</span></div>
+        </div>
+    </section>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="notice {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <section class="section" id="doctors">
+        <div class="section-heading">
+            <div><p class="eyebrow">OUR SPECIALISTS</p><h2>Meet our doctors</h2></div>
+            <p>Choose a specialist suited to your needs.</p>
+        </div>
+        <div class="doctor-grid">
+            {% for doctor in doctors %}
+            <article class="doctor-card">
+                <div class="doctor-avatar">{{ doctor.name.split(' ')[1][0] }}{{ doctor.name.split(' ')[2][0] }}</div>
+                <p class="doctor-label">MEDICAL SPECIALIST</p>
+                <h3>{{ doctor.name }}</h3>
+                <p class="specialty">{{ doctor.specialty }}</p>
+                <p class="availability">● {{ doctor.time }}</p>
+                <a href="#booking" class="text-link" data-doctor="{{ doctor.id }}">Book with doctor →</a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="booking-section" id="booking">
+        <div class="booking-intro">
+            <p class="eyebrow">TAKE THE NEXT STEP</p>
+            <h2>Request an appointment</h2>
+            <p>Enter your details and select a doctor and preferred date.</p>
+            <div class="info-line">✓ Simple appointment request</div>
+            <div class="info-line">✓ Appointment details saved in SQLite</div>
+            <div class="info-line">✓ View submitted requests online</div>
+        </div>
+        <form class="booking-form" method="POST" action="{{ url_for('book') }}">
+            <div class="form-row">
+                <label>Patient name
+                    <input name="patient_name" required maxlength="100" placeholder="Enter full name">
+                </label>
+                <label>Email address
+                    <input name="email" type="email" required maxlength="150" placeholder="you@example.com">
+                </label>
+            </div>
+            <div class="form-row">
+                <label>Phone number
+                    <input name="phone" type="tel" inputmode="numeric" pattern="[0-9]{10,15}" required placeholder="10–15 digits">
+                </label>
+                <label>Select doctor
+                    <select name="doctor_id" id="doctor_id" required>
+                        <option value="">Choose a specialist</option>
+                        {% for doctor in doctors %}
+                        <option value="{{ doctor.id }}">{{ doctor.name }} — {{ doctor.specialty }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+            <label>Preferred appointment date
+                <input type="date" name="appointment_date" min="{{ today }}" required>
+            </label>
+            <label>Reason for visit
+                <textarea name="reason" required maxlength="500" rows="3" placeholder="Briefly describe the reason for your visit"></textarea>
+            </label>
+            <button class="button submit-button" type="submit">Submit Appointment Request →</button>
+            <p class="form-note">Demo application only. Do not enter real medical or sensitive personal information.</p>
+        </form>
+    </section>
+</main>
+
+<footer>© 2026 CarePoint Hospital Appointment System · Academic demonstration</footer>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

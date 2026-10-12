@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Requests | CarePoint</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="navbar">
+    <a class="brand" href="/">✚ CarePoint</a>
+    <nav><a href="/">Home</a><a href="/#doctors">Our Doctors</a><a href="/#booking">Book Appointment</a></nav>
+</header>
+<main class="section">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="notice {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+    <p class="eyebrow">APPOINTMENT MANAGEMENT</p>
+    <h1 style="font-size:2.5rem">Appointment requests</h1>
+    <p>Requests saved in the local SQLite database.</p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Reason</th></tr></thead>
+            <tbody>
+            {% for item in appointments %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.patient_name }}</td>
+                    <td>{{ item.doctor_name }}<br><small>{{ item.specialty }}</small></td>
+                    <td>{{ item.appointment_date }}</td>
+                    <td>{{ item.reason }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">No appointment requests yet. <a class="text-link" href="/#booking">Book an appointment →</a></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="form-note">Academic demo only. This page is not authenticated and must not be exposed with real patient data.</p>
+</main>
+<footer>© 2026 CarePoint Hospital Appointment System</footer>
+</body>
+</html>
