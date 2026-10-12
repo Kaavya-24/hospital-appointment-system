@@ -11,6 +11,7 @@
     <a class="brand" href="/">✚ CarePoint</a>
     <nav>
         <a href="#doctors">Our Doctors</a>
+        <a href="#about">About</a>
         <a href="#booking">Book Appointment</a>
         <a href="{{ url_for('appointments') }}">Appointments</a>
     </nav>
@@ -106,3 +107,35 @@
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
+
+<section class="section" id="about">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">ABOUT CAREPOINT</p>
+            <h2>Healthcare with a personal touch</h2>
+        </div>
+        <p>Our demonstration platform makes it easier to find a specialist and submit an appointment request.</p>
+    </div>
+    <div class="doctor-grid">
+        <article class="doctor-card">
+            <div class="medical-icon">✚</div>
+            <h3>Specialist Directory</h3>
+            <p>Explore our sample medical specialists and their departments.</p>
+        </article>
+        <article class="doctor-card">
+            <div class="medical-icon">▣</div>
+            <h3>Easy Booking</h3>
+            <p>Submit an appointment request through a simple online form.</p>
+        </article>
+        <article class="doctor-card">
+            <div class="medical-icon">✓</div>
+            <h3>Appointment Tracking</h3>
+            <p>View submitted requests saved in the local SQLite database.</p>
+        </article>
+        <article class="doctor-card">
+            <div class="medical-icon">⌘</div>
+            <h3>Automated Quality Checks</h3>
+            <p>Use automated tests to check important application functionality.</p>
+        </article>
+    </div>
+</section>
