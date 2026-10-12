@@ -18,7 +18,7 @@ pipeline {
                         '''
                     } else {
                         bat '''
-                            py -3 -m venv .jenkins-venv
+                            "C:/Users/Kaavya S/AppData/Local/Programs/Python/Python312/python.exe" -m venv .jenkins-venv
                             .jenkins-venv\\Scripts\\python.exe -m pip install -r requirements.txt
                         '''
                     }
