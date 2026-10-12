@@ -44,7 +44,7 @@ pipeline {
                     if (isUnix()) {
                         sh 'docker build -t hospital-appointment-system:1.0 .'
                     } else {
-                        bat 'docker build -t hospital-appointment-system:1.0 .'
+                        bat '"C:\\Users\\Kaavya S\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t hospital-appointment-system:1.0 .'
                     }
                 }
             }
