@@ -50,27 +50,7 @@ pipeline {
             }
         }
 
-        stage('Check WSL and Ansible Access') {
-    when {
-        expression { !isUnix() }
-    }
-            steps {
-                bat '"C:\\Windows\\System32\\wsl.exe" -d Ubuntu -u kaavya -- bash -lc "ansible-playbook --version"'
-            }
-        }
-
-        stage('Deploy with Ansible') {
-            steps {
-                script {
-                    if (isUnix()) {
-                        sh 'ansible-playbook ansible/deploy.yml'
-                    } else {
-                        bat '"C:\\Windows\\System32\\wsl.exe" -d Ubuntu -u kaavya -- bash -lc "ansible-playbook /home/kaavya/hospital-appointment-system/ansible/deploy.yml"'
-                    }
-                }
-            }
-        }
-
+        
         stage('Verify Application Health') {
             steps {
                 script {
