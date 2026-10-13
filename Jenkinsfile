@@ -51,9 +51,9 @@ pipeline {
         }
 
         stage('Check WSL and Ansible Access') {
-            when {
-                not { isUnix() }
-            }
+    when {
+        expression { !isUnix() }
+    }
             steps {
                 bat '"C:\\Windows\\System32\\wsl.exe" -d Ubuntu -u kaavya -- bash -lc "ansible-playbook --version"'
             }
