@@ -49,14 +49,47 @@ pipeline {
                 }
             }
         }
+
+        stage('Check WSL and Ansible Access') {
+            when {
+                not { isUnix() }
+            }
+            steps {
+                bat '"C:\\Windows\\System32\\wsl.exe" -d Ubuntu -u kaavya -- bash -lc "ansible-playbook --version"'
+            }
+        }
+
+        stage('Deploy with Ansible') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'ansible-playbook ansible/deploy.yml'
+                    } else {
+                        bat '"C:\\Windows\\System32\\wsl.exe" -d Ubuntu -u kaavya -- bash -lc "ansible-playbook /home/kaavya/hospital-appointment-system/ansible/deploy.yml"'
+                    }
+                }
+            }
+        }
+
+        stage('Verify Application Health') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'curl --fail http://localhost:5000/health'
+                    } else {
+                        bat 'curl.exe --fail http://localhost:5000/health'
+                    }
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'SUCCESS: Tests passed and Docker image built.'
+            echo 'SUCCESS: Tests passed, Docker image built, Ansible deployment completed, and health check passed.'
         }
         failure {
-            echo 'FAILURE: Check the Jenkins console output.'
+            echo 'FAILURE: Check the Jenkins console output to identify the failed stage.'
         }
     }
 }
